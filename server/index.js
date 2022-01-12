@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
+const cors = require("cors");
 const { createRequestHandler } = require("@remix-run/express");
 
 const MODE = process.env.NODE_ENV;
@@ -9,6 +10,7 @@ const BUILD_DIR = path.join(process.cwd(), "server/build");
 
 const app = express();
 app.use(compression());
+app.use(cors());
 
 // You may want to be more aggressive with this caching
 app.use(express.static("public", { maxAge: "1h" }));
@@ -27,6 +29,15 @@ app.all(
         return createRequestHandler({ build, mode: MODE })(req, res, next);
       }
 );
+
+////////////////////////////////////////////////////////////////////////
+/* 
+  Server files and CRUD operations go here
+*/
+
+app.get('/234', (req, res) => {
+  res.json({ message: 'hello' })
+});
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
