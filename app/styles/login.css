@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap');
+
+html {
+    font-size: 16px;
+}
+
+body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.page {
+    background-color: #374151;
+    min-height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color: #f0f8ff;
+    color: #353535;
+    width: max-content;
+    height: max-content;
+    margin: auto;
+    padding: 3rem 2.75rem;
+    box-shadow: #353535 0 0 13px;
+    border: 0;
+    border-radius: 10px;
+    font-family: 'Terminal', 'Matter Regular', sans-serif;
+}
+
+.container h2 {
+    font-family: 'Mochiy Pop P One', cursive;
+}
+
+.container h2:hover {
+    cursor: default;
+}
+
+fieldset {
+    display: flex;
+    justify-content: center;
+    border: 0;
+}
+
+fieldset> :not(:last-child) {
+    margin-right: 2rem;
+}
+
+legend {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: auto;
+    position: relative;
+    right: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0;
+    width: max-content;
+    height: max-content;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    background-color: #f0f8ff;
+    border: 1px solid #222;
+    border-radius: 5px;
+    font-family: 'Terminal', 'Matter Regular', sans-serif;
+    color: #353535;
+    margin-bottom: 0.625rem;
+}

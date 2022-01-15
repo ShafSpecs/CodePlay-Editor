@@ -10,6 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id          String @id @default(uuid())
+  name        String
+  email       String
+  password    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  pens        Pen[]
+}
+
 model Pen {
   id        Int      @id @default(autoincrement())
   penId     Float    @unique
@@ -19,4 +29,6 @@ model Pen {
   html      String?
   css      String?
   js        String?
+  author    User    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String   
 }
