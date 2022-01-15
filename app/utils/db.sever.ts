@@ -20,17 +20,4 @@ if (process.env.NODE_ENV === "production") {
   db = global.__db;
 }
 
-export const createPen = async (pen: any) => {
-  const data = await db.pen.create({
-    data: {
-      title: pen.title,
-      html: pen.html,
-      css: pen.css,
-      js: pen.js,
-    }
-  })
-
-  console.log(data)
-}
-
 export { db };

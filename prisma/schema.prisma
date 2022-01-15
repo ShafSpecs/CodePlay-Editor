@@ -12,6 +12,7 @@ datasource db {
 
 model Pen {
   id        Int      @id @default(autoincrement())
+  penId     Int      @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
