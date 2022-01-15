@@ -2,7 +2,8 @@ import React from "react";
 import {
   useFetcher,
   useLoaderData,
-  redirect
+  redirect,
+  Outlet
 } from 'remix'
 
 import type { LoaderFunction, ActionFunction } from "remix";

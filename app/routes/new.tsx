@@ -3,7 +3,7 @@ import { useFetcher, useLoaderData, redirect } from "remix";
 
 import SplitPane from "react-split-pane";
 
-import type { LoaderFunction, ActionFunction } from "remix";
+import type { ActionFunction, ErrorBoundaryComponent } from "remix";
 
 import {
   JavascriptEditor,
@@ -41,8 +41,7 @@ export const action: ActionFunction = async ({ request }) => {
     },
   });
 
-  console.log(data);
-  return redirect(`/`);
+  return redirect(`/pen/${data.penId}`);
 };
 
 export default function Index() {
@@ -93,7 +92,7 @@ export default function Index() {
   const submit = async () => {
     fetcher.submit(
       { html: htmlValue, css: cssValue, js: jsValue, title: title },
-      { method: "post", action: "/pen" }
+      { method: "post" }
     );
   };
 
@@ -166,4 +165,15 @@ export default function Index() {
       </SplitPane>
     </div>
   );
+}
+
+export const ErrorBoundary: ErrorBoundaryComponent = () => {
+  return (
+    <div className="error-boundary">
+      <h1>Something went wrong</h1>
+      <p>
+        We are very sorry, but something went wrong. Please try again later.
+      </p>
+    </div>
+  )
 }
