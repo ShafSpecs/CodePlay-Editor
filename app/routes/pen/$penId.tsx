@@ -25,7 +25,7 @@ export default function PenId() {
         setHtmlValue(parentData.html);
         setJsValue(parentData.js);
         setCssValue(parentData.css);
-    }, []);
+    }, [parentData.html, parentData.js, parentData.css]);
 
     useEffect(() => {
         setHeightValue(parentData.height);

@@ -16,7 +16,7 @@ export function links() {
     return [{ rel: "stylesheet", href: stylesUrl }];
 }
 
-export const action: ActionFunction = async ({ request, params }) => {
+export const action: ActionFunction = async ({ request }) => {
     const body = await request.formData();
 
     const data = await db.pen.update({
@@ -34,17 +34,30 @@ export const action: ActionFunction = async ({ request, params }) => {
             //@ts-ignore
             js: body.get("js")
         }
-    });
+    }).catch((err: Error) => console.log(err));
 
     return {
-        status: 200,
-        done: 'done'
+        data: data
     }
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
     const { penId } = params;
-    return penId;
+    
+    const penData = await db.pen.findUnique({
+        where: {
+            //@ts-ignore
+            penId: parseInt(penId)
+        }
+    }).catch((err: Error) => console.log(err));
+
+    if (!penData) {
+        redirect("/");
+    }
+    
+    return {
+        data: penData
+    }
 }
 
 export default function Pen() {
@@ -66,8 +79,6 @@ export default function Pen() {
     const editRef = React.useRef<HTMLButtonElement>(null!);
     const saveRef = React.useRef<HTMLButtonElement>(null!);
 
-    console.log(data);
-
     React.useEffect(() => {
         const output = `<html>
                         <head>
@@ -86,12 +97,10 @@ export default function Pen() {
     }, [debouncedHtml, debouncedCss, debouncedJs]);
 
     React.useEffect(() => {
-        let number = Math.round(Math.random());
-        number == 0 ? (number = 2) : (number = 3);
-
-        const slug = generateSlug(number, { format: "title" })
-
-        setTitle(slug)
+        setTitle(data.data.title);
+        setHtmlValue(data.data.html);
+        setCssValue(data.data.css);
+        setJsValue(data.data.js);
     }, [])
 
     const edit = () => {
@@ -111,7 +120,7 @@ export default function Pen() {
     }
 
     const submit = async () => {
-        fetcher.submit({ html: htmlValue, css: cssValue, js: jsValue, title: title, data: data }, { method: 'post', action: '/pen' });
+        fetcher.submit({ html: htmlValue, css: cssValue, js: jsValue, title: title, data: data.data.penId }, { method: 'post', action: '/pen' });
     }
 
     return (
