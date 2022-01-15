@@ -1,29 +1,30 @@
 import React from "react";
-import { Outlet, useFetcher, useLoaderData, redirect } from "remix";
+import {
+    useFetcher,
+    useLoaderData,
+    redirect
+} from 'remix'
 
 import SplitPane from "react-split-pane";
-import { generateSlug } from "random-word-slugs";
-import { useDebounce } from "../hooks/useDebounce";
-import { db } from "~/utils/db.sever";
 
 import type { LoaderFunction, ActionFunction } from "remix";
 
-import stylesUrl from "../styles/pen.css";
+import { JavascriptEditor, CssEditor, HtmlEditor } from "../components/editor.client";
+import { useDebounce } from "../hooks/useDebounce";
+import { ClientOnly } from "remix-utils";
+import { db } from "~/utils/db.sever";
+import { generateSlug } from "random-word-slugs";
 
-const random_number = require("random-number");
+import stylesUrl from "../styles/new.css";
 
 export function links() {
     return [{ rel: "stylesheet", href: stylesUrl }];
 }
 
-export const action: ActionFunction = async ({ request, params }) => {
+export const action: ActionFunction = async ({ request }) => {
     const body = await request.formData();
 
-    const data = await db.pen.update({
-        where: {
-            //@ts-ignore
-            penId: parseInt(body.get("data"))
-        },
+    const data = await db.pen.create({
         data: {
             //@ts-ignore
             title: body.get("title"),
@@ -34,29 +35,22 @@ export const action: ActionFunction = async ({ request, params }) => {
             //@ts-ignore
             js: body.get("js")
         }
-    });
+    })
 
-    return {
-        status: 200,
-        done: 'done'
-    }
+    console.log(body)
+    return redirect(`/${data.id}`)
 }
 
-export const loader: LoaderFunction = async ({ params }) => {
-    const { penId } = params;
-    return penId;
-}
-
-export default function Pen() {
-    const data = useLoaderData();
-    const fetcher = useFetcher();
+export default function Index() {
+    const fetcher = useFetcher()
 
     const [heightValue, setHeightValue] = React.useState("300px");
+
     const [title, setTitle] = React.useState("");
-    const [outputValue, setOutputValue] = React.useState("");
     const [htmlValue, setHtmlValue] = React.useState(``);
     const [jsValue, setJsValue] = React.useState("");
     const [cssValue, setCssValue] = React.useState("");
+    const [outputValue, setOutputValue] = React.useState("");
 
     const debouncedHtml = useDebounce(htmlValue, 1000);
     const debouncedJs = useDebounce(jsValue, 1000);
@@ -65,25 +59,6 @@ export default function Pen() {
     const titleRef = React.useRef<HTMLDivElement>(null!);
     const editRef = React.useRef<HTMLButtonElement>(null!);
     const saveRef = React.useRef<HTMLButtonElement>(null!);
-
-    console.log(data);
-
-    React.useEffect(() => {
-        const output = `<html>
-                        <head>
-                          <style>
-                          ${debouncedCss}
-                          </style>
-                        </head>
-                          <body>
-                          ${debouncedHtml}
-                          <script type="text/javascript">
-                          ${debouncedJs}
-                          </script>
-                          </body>
-                        </html>`;
-        setOutputValue(output);
-    }, [debouncedHtml, debouncedCss, debouncedJs]);
 
     React.useEffect(() => {
         let number = Math.round(Math.random());
@@ -111,8 +86,25 @@ export default function Pen() {
     }
 
     const submit = async () => {
-        fetcher.submit({ html: htmlValue, css: cssValue, js: jsValue, title: title, data: data }, { method: 'post', action: '/pen' });
+        fetcher.submit({ html: htmlValue, css: cssValue, js: jsValue, title: title }, { method: 'post', action: '/pen' });
     }
+
+    React.useEffect(() => {
+        const output = `<html>
+					<head>
+					  <style>
+					  ${debouncedCss}
+					  </style>
+					</head>
+					  <body>
+					  ${debouncedHtml}
+					  <script type="text/javascript">
+					  ${debouncedJs}
+					  </script>
+					  </body>
+					</html>`;
+        setOutputValue(output);
+    }, [debouncedHtml, debouncedCss, debouncedJs]);
 
     return (
         <div className="container">
@@ -137,17 +129,33 @@ export default function Pen() {
                     setHeightValue(`${height - 40}px`);
                 }}
             >
-                <Outlet context={{
-                    height: heightValue,
-                    html: htmlValue,
-                    css: cssValue,
-                    js: jsValue,
-                    setHtml: setHtmlValue,
-                    setCss: setCssValue,
-                    setJs: setJsValue
-                }} />
+                <SplitPane split="vertical" minSize={"33%"}>
+                    <ClientOnly>
+                        <HtmlEditor
+                            height={heightValue}
+                            value={htmlValue}
+                            onChange={setHtmlValue}
+                        />
+                    </ClientOnly>
+                    <SplitPane split="vertical" minSize={"50%"}>
+                        <ClientOnly>
+                            <CssEditor
+                                height={heightValue}
+                                value={cssValue}
+                                onChange={setCssValue}
+                            />
+                        </ClientOnly>
+                        <ClientOnly>
+                            <JavascriptEditor
+                                height={heightValue}
+                                value={jsValue}
+                                onChange={setJsValue}
+                            />
+                        </ClientOnly>
+                    </SplitPane>
+                </SplitPane>
                 <iframe title={"Doc"} srcDoc={outputValue} className="previewIframe" />
             </SplitPane>
-        </div >
-    )
+        </div>
+    );
 }

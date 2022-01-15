@@ -1,0 +1,93 @@
+body {
+    margin: 0px;
+}
+
+.Resizer {
+    z-index: 10000;
+    box-sizing: border-box;
+    background-clip: padding-box;
+}
+
+.Resizer:hover {
+    transition: all 2s ease;
+    border: 10px solid #333642;
+}
+
+.Resizer.horizontal {
+    height: 11px;
+    margin: -5px 0;
+    cursor: row-resize;
+    width: 100%;
+    border: 8px solid #333642;
+}
+
+.Resizer.vertical {
+    margin: 0 -5px;
+
+    cursor: col-resize;
+    border: 8px solid #333642;
+}
+
+.Resizer.disabled {
+    cursor: not-allowed;
+}
+
+.Resizer.disabled:hover {
+    border-color: transparent;
+}
+
+.previewIframe {
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+}
+
+.header {
+    margin: 0;
+    height: 2.75rem;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    width: 100%;
+    background-image: linear-gradient(to right, rgb(120, 94, 132, 0.5), rgb(211, 234, 19, 0));
+}
+
+.right {
+    position: absolute;
+    right: 0.325rem;
+}
+
+.editor-container {
+    height: calc(100vh - 2.75rem);
+    margin-top: 2.75rem;
+}
+
+.title-input {
+    border-style: none;
+    border-bottom: solid 1px rgba(65, 65, 65, 0.5);
+    width: 100%;
+    background: transparent;
+    color: #202020;
+    margin-right: 0.5rem;
+    padding: 0.125rem;
+    font-size: 0.825rem;
+}
+
+.title-input:focus {
+    outline: none;
+}
+
+.edit {
+    margin-left: 0.5rem;
+    position: relative;
+    left: 0.2rem;
+}
+
+.save {
+    display: none;
+    margin-left: 0.5rem;
+    position: relative;
+    left: 0.2rem;
+}
