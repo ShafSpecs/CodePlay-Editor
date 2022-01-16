@@ -1,0 +1,101 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Matter', 'Roboto', Helvetica, sans-serif;
+}
+
+.hero {
+    width: 100%;
+    position: relative;
+}
+
+.hero-img {
+    background: linear-gradient(to right, rgb(0, 121, 182), rgb(255, 255, 255));
+    height: 12rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-profile {
+    border-radius: 50%;
+    background: gray;
+    height: 6rem;
+    width: 6rem;
+    position: absolute;
+    left: 50%;
+    border: 0.325rem solid #fff;
+    margin-left: -3.25rem;
+    bottom: -3.25rem;
+}
+
+.sub-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: max-content;
+    padding: 0.325rem;
+    margin-top: 3.625rem;
+}
+
+.info {
+    font-size: 1.5rem;
+    color: #494949;
+}
+
+.sign-out {
+    position: absolute;
+    right: 1rem;
+    padding: 0.625rem;
+    border-radius: 0.25rem;
+    border: 0;
+}
+
+.header {
+    border: 0;
+    border-bottom: 1px solid #7c7c7c;
+    margin: 3rem 1rem 0.75rem 1rem;
+    font-size: 1.625rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.75rem;
+    margin: 1rem;
+}
+
+.card {
+    border: 0;
+    border-radius: 0.25rem;
+    margin: 0.75rem;
+    padding: 0.75rem;
+    background: rgb(225, 225, 225);
+    box-shadow: 0 0.25rem 0.25rem rgba(0, 0, 0, 0.419);
+    transition: .3s;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.419);
+    transform: translateY(-0.25rem);
+    cursor: pointer;
+}
+
+.card h3 {
+    margin: 0 auto;
+}
+
+.card p {
+    font-size: 0.875rem;
+}
+
+.card p span {
+    color: #7c7c7c;
+    font-size: 0.825rem;
+}

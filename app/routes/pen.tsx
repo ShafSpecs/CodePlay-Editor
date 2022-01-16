@@ -2,9 +2,8 @@ import React from "react";
 import { Outlet, useFetcher, useLoaderData, redirect, useCatch } from "remix";
 
 import SplitPane from "react-split-pane";
-import { generateSlug } from "random-word-slugs";
 import { useDebounce } from "../hooks/useDebounce";
-import { db } from "~/utils/db.sever";
+import { db } from "~/utils/db.server";
 
 import type {
   LoaderFunction,

@@ -13,7 +13,7 @@
     "prisma:gen": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^3.8.0",
+    "@prisma/client": "^3.8.1",
     "@remix-run/express": "^1.1.1",
     "@remix-run/react": "^1.1.1",
     "ace-builds": "^1.4.13",
@@ -38,7 +38,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
-    "prisma": "^3.8.0",
+    "prisma": "^3.8.1",
     "typescript": "^4.1.2"
   },
   "engines": {

@@ -12,7 +12,7 @@ import {
 } from "../components/editor.client";
 import { useDebounce } from "../hooks/useDebounce";
 import { ClientOnly } from "remix-utils";
-import { db } from "~/utils/db.sever";
+import { db } from "~/utils/db.server";
 import { generateSlug } from "random-word-slugs";
 
 import stylesUrl from "../styles/new.css";

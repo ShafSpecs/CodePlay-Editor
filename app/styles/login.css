@@ -78,3 +78,8 @@ legend {
     color: #353535;
     margin-bottom: 0.625rem;
 }
+
+.input[type=text]:focus {
+    outline: none;
+    border: 2px solid #2e3246;
+}
