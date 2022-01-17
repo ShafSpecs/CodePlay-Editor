@@ -60,6 +60,16 @@ body {
     position: absolute;
     right: 0.2rem;
     width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    width: 1.825rem;
+    height: 1.825rem;
+    background: #333642;
+    border-radius: 50%;
 }
 
 .previewIframe {

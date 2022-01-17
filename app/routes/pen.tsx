@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet, useFetcher, useLoaderData, redirect, useCatch } from "remix";
+import { getUser } from "~/utils/session.server";
 
 import SplitPane from "react-split-pane";
 import { useDebounce } from "../hooks/useDebounce";
@@ -12,8 +13,6 @@ import type {
 } from "remix";
 
 import stylesUrl from "../styles/pen.css";
-
-const random_number = require("random-number");
 
 export function links() {
   return [{ rel: "stylesheet", href: stylesUrl }];
@@ -46,8 +45,9 @@ export const action: ActionFunction = async ({ request }) => {
   };
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
   const { penId } = params;
+  const user = getUser(request);
 
   const penData = await db.pen
     .findUnique({
@@ -64,12 +64,15 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   return {
     data: penData,
+    user,
   };
 };
 
 export default function Pen() {
   const data = useLoaderData();
   const fetcher = useFetcher();
+
+  const { user, penData } = data;
 
   const [heightValue, setHeightValue] = React.useState("300px");
   const [title, setTitle] = React.useState("");
@@ -104,10 +107,10 @@ export default function Pen() {
   }, [debouncedHtml, debouncedCss, debouncedJs]);
 
   React.useEffect(() => {
-    setTitle(data.data.title);
-    setHtmlValue(data.data.html);
-    setCssValue(data.data.css);
-    setJsValue(data.data.js);
+    setTitle(penData.title);
+    setHtmlValue(penData.html);
+    setCssValue(penData.css);
+    setJsValue(penData.js);
   }, []);
 
   const edit = () => {
@@ -128,16 +131,20 @@ export default function Pen() {
   };
 
   const submit = async () => {
-    fetcher.submit(
-      {
-        html: htmlValue,
-        css: cssValue,
-        js: jsValue,
-        title: title,
-        data: data.data.penId,
-      },
-      { method: "post", action: "/pen" }
-    );
+    if (!user) {
+      return redirect("/login");
+    } else {
+      fetcher.submit(
+        {
+          html: htmlValue,
+          css: cssValue,
+          js: jsValue,
+          title: title,
+          data: penData.penId,
+        },
+        { method: "post", action: "/pen" }
+      );
+    }
   };
 
   return (
@@ -153,6 +160,7 @@ export default function Pen() {
         <div className="right">
           <button onClick={submit}>Save</button>
           <button>Load</button>
+          {user && <div className="logo"></div>}
         </div>
       </div>
       <SplitPane
@@ -192,12 +200,12 @@ export const ErrorBoundary: ErrorBoundaryComponent = () => {
 };
 
 export const CatchBoundary = () => {
-    return (
-        <div className="catch-boundary">
-            <h1>Something went wrong</h1>
-            <p>
-                We are very sorry, but something went wrong. Please try again later.
-            </p>
-        </div>
-    )
-}
+  return (
+    <div className="catch-boundary">
+      <h1>Something went wrong</h1>
+      <p>
+        We are very sorry, but something went wrong. Please try again later.
+      </p>
+    </div>
+  );
+};

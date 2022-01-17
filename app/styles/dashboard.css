@@ -71,6 +71,11 @@ body {
     margin: 1rem;
 }
 
+a:any-link {
+    text-decoration: none;
+    color: inherit;
+}
+
 .card {
     border: 0;
     border-radius: 0.25rem;
@@ -98,4 +103,44 @@ body {
 .card p span {
     color: #7c7c7c;
     font-size: 0.825rem;
+}
+
+@media screen and (max-width: 640px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (min-width: 641px) and (max-width: 920px) {
+    html {
+        font-size: 15.25px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    
+@media screen and (min-width: 921px) and (max-width: 1280px) {
+    html {
+        font-size: 19.625px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    html {
+        font-size: 22.625px;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
 }

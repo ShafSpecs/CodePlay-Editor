@@ -1,9 +1,8 @@
-import React from "react";
-import { Form, redirect, useLoaderData } from "remix";
+import { Form, Link, redirect, useLoaderData } from "remix";
 import { User } from "@prisma/client";
 import { getUser } from "~/utils/session.server";
-
 import { db } from "~/utils/db.server";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import styles from "../styles/dashboard.css";
 
@@ -13,33 +12,53 @@ type LoaderData = {
   user: User | null;
 };
 
+type PenData = {
+  pens: {
+    title: string;
+    penId: number;
+    updatedAt: Date;
+  }[];
+};
+
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
 export const loader: LoaderFunction = async ({
   request,
-}): Promise<LoaderData | Response> => {
+}): Promise<(PenData & LoaderData) | Response> => {
   const user = await getUser(request);
   if (!user) {
-      return redirect("/login");
+    return redirect("/login");
   }
-  return { user };
+  const pens = await db.pen.findMany({
+    take: 12,
+    select: {
+      penId: true,
+      title: true,
+      updatedAt: true,
+    },
+  });
+  return { user, pens };
 };
 
-function GridCard ({ name, date}: any) {
-    return (
-        <div className="card">
-            <h3>{name}</h3>
-            <p><span>Last updated: </span>{date}</p>
-        </div>
-    )
+function GridCard({ name, date, link }: any) {
+  return (
+    <Link to={`/pen/${link}`}>
+      <div className="card">
+        <h3>{name}</h3>
+        <p>
+          <span>Last updated: </span>
+          {date} ago
+        </p>
+      </div>
+    </Link>
+  );
 }
 
 export default function Dashboard() {
-  const data = useLoaderData<LoaderData>();
-  const { user } = data;
-  console.log(user);
+  const data = useLoaderData<PenData & LoaderData>();
+  const { user, pens } = data;
 
   return (
     <div>
@@ -57,13 +76,14 @@ export default function Dashboard() {
       <section className="pen">
         <div className="header">Your Work</div>
         <div className="grid">
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
-            <GridCard name='test' date='2 months ago' />
+          {pens.map((pen) => (
+            <GridCard
+              key={pen.title}
+              link={pen.penId}
+              name={pen.title}
+              date={formatDistanceToNowStrict(new Date(pen.updatedAt))}
+            />
+          ))}
         </div>
       </section>
     </div>
