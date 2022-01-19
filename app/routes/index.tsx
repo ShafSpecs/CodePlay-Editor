@@ -1,4 +1,4 @@
-import { useLoaderData, redirect, Form } from "remix";
+import { useLoaderData, redirect, Form, Link } from "remix";
 import { getUser } from "~/utils/session.server";
 import { User } from "@prisma/client";
 import { db } from "~/utils/db.server";
@@ -7,7 +7,6 @@ import { formatDistanceToNowStrict } from "date-fns";
 import styles from "../styles/index.css";
 
 import type { LoaderFunction, LinksFunction } from "remix";
-import { Link } from "react-router-dom";
 
 type LoaderData = {
   user: User | null;
