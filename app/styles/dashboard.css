@@ -6,6 +6,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Matter', 'Roboto', Helvetica, sans-serif;
+    overflow-y: hidden;
 }
 
 .hero {
@@ -43,7 +44,7 @@ body {
     from {
         transform: rotate(0deg);
     }
-
+    
     to {
         transform: rotate(360deg);
     }
@@ -60,7 +61,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 99%;
     height: max-content;
     padding: 0.325rem;
     margin-top: 3.625rem;
@@ -76,6 +77,7 @@ body {
     right: 1rem;
     padding: 0.625rem;
     border-radius: 0.25rem;
+    overflow-y: hidden;
     border: 0;
 }
 
@@ -84,10 +86,11 @@ body {
     border-bottom: 1px solid #7c7c7c;
     margin: 3rem 1rem 0.75rem 1rem;
     font-size: 1.625rem;
-    width: 100%;
+    width: 99%;
     display: flex;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
 
 .grid {

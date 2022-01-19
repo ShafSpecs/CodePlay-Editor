@@ -1,10 +1,18 @@
 import React from "react";
-import { Outlet, useFetcher, useLoaderData, redirect, useCatch, Link } from "remix";
+import {
+  Outlet,
+  useFetcher,
+  useLoaderData,
+  redirect,
+  useCatch,
+  Link,
+} from "remix";
 import { getUser } from "~/utils/session.server";
 
 import SplitPane from "react-split-pane";
 import { useDebounce } from "../hooks/useDebounce";
 import { db } from "~/utils/db.server";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import type {
   LoaderFunction,
@@ -58,6 +66,25 @@ export const loader: LoaderFunction = async ({ params, request }) => {
     })
     .catch((err: Error) => console.log(err));
 
+  if (!user) {
+    return null;
+  }
+
+  const userPens = await db.pen
+    .findMany({
+      where: {
+        authorId: {
+          contains: user.id,
+        },
+      },
+      select: {
+        penId: true,
+        title: true,
+        updatedAt: true,
+      },
+    })
+    .catch((err: Error) => console.log(err));
+
   if (!penData) {
     redirect("/");
   }
@@ -65,14 +92,31 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   return {
     penData,
     user,
+    userPens,
   };
 };
+
+function GridCard({ name, date, link }: any) {
+  return (
+    <Link to={`/pen/${link}`}>
+      <div className="card">
+        <h3>{name}</h3>
+        <p>
+          <span>Last updated: </span>
+          {date} ago
+        </p>
+      </div>
+    </Link>
+  );
+}
 
 export default function Pen() {
   const data = useLoaderData();
   const fetcher = useFetcher();
 
-  const { user, penData } = data;
+  const { user, penData, userPens } = data;
+
+  const modal = React.useRef<HTMLDivElement>(null!);
 
   const [heightValue, setHeightValue] = React.useState("300px");
   const [title, setTitle] = React.useState<string>("");
@@ -130,6 +174,16 @@ export default function Pen() {
     saveRef.current.style.display = "none";
   };
 
+  const load = () => {
+    modal.current.style.display = "flex";
+  };
+
+  typeof window !== "undefined" && window.addEventListener("click", (e) => {
+    if (e.target === modal.current) {
+      modal.current.style.display = "none";
+    }
+  });
+
   const submit = async () => {
     if (!user) {
       return redirect("/login");
@@ -159,8 +213,33 @@ export default function Pen() {
         </button>
         <div className="right">
           <button onClick={submit}>Save</button>
-          <button className="load">Load</button>
-          {user && <Link to='/dashboard'><div className="logo">{user.icon}</div></Link>}
+          <button className="load" onClick={load}>
+            Load
+          </button>
+          {user && (
+            <Link to="/dashboard">
+              <div className="logo">{user.icon}</div>
+            </Link>
+          )}
+        </div>
+      </div>
+      <div className="modal" ref={modal}>
+        <div className="modal-content">
+          <section className="title">
+            <h3>Your Pens</h3>
+          </section>
+          <section className="pens">
+            <div className="grid">
+              {userPens.map((pen: any) => (
+                <GridCard
+                  key={pen.title}
+                  link={pen.penId}
+                  name={pen.title}
+                  date={formatDistanceToNowStrict(new Date(pen.updatedAt))}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
       <SplitPane

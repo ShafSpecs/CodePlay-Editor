@@ -50,7 +50,7 @@ const storage = createCookieSessionStorage({
     secrets: [sessionSecret],
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 30,
+    maxAge: 60 * 60 * 24 * 7,
     httpOnly: true
   }
 });
@@ -101,7 +101,7 @@ export async function logout(request: Request) {
   const session = await storage.getSession(
     request.headers.get("Cookie")
   );
-  return redirect("/login", {
+  return redirect("/", {
     headers: {
       "Set-Cookie": await storage.destroySession(session)
     }
