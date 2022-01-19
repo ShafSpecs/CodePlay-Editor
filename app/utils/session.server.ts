@@ -8,15 +8,17 @@ import {
 type LoginForm = {
   username: string;
   password: string;
+  icon?: string;
 };
 
 export async function register({
   username,
-  password
+  password,
+  icon
 }: LoginForm) {
   password = await bcrypt.hash(password, 10);
   return db.user.create({
-    data: { username, password }
+    data: { username, password, icon }
   });
 }
 

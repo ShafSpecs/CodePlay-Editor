@@ -1,6 +1,8 @@
 import { Form, useSearchParams, useActionData, json } from "remix";
 import { db } from "~/utils/db.server";
 import { login, register, createUserSession } from "~/utils/session.server";
+import { createAvatar } from '@dicebear/avatars';
+import * as style from '@dicebear/avatars-identicon-sprites';
 
 import type { ActionFunction } from "remix";
 
@@ -9,6 +11,7 @@ import styles from "../styles/login.css";
 export const links = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
+
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -43,6 +46,13 @@ export const action: ActionFunction = async ({ request }) => {
   const username = form.get("username");
   const password = form.get("password");
   const redirectTo = form.get("redirectTo") || "/";
+
+  const lucky_number = Math.random() * 10;
+
+  const iconArray: string[] = [
+    "🤖", "😎", "🤡", "👾", "🐱‍👤", "👨‍💻", "💿", "💻", "😄", "🥳"
+  ];
+
   if (
     typeof loginType !== "string" ||
     typeof username !== "string" ||
@@ -83,7 +93,7 @@ export const action: ActionFunction = async ({ request }) => {
           formError: `User with username ${username} already exists`,
         });
       }
-      const user = await register({ username, password });
+      const user = await register({ username, password, icon: iconArray[Math.round(lucky_number) - 1] });
       if (!user) {
         return badRequest({
           fields,
@@ -114,95 +124,6 @@ export default function Login() {
           method="post"
           aria-describedby={actionData?.formError ? "form-error-message" : undefined}
         >
-          {/* <input
-            type="hidden"
-            name="redirectTo"
-            value={searchParams.get("redirectTo") ?? undefined}
-          />
-          <div className="form-group">
-            <fieldset>
-              <legend className="sr-only">Login or Sign Up?</legend>
-              <label>
-                <input
-                  type="radio"
-                  name="loginType"
-                  value="login"
-                  defaultChecked={
-                    !data?.fields?.loginType ||
-                    data?.fields?.loginType === "login"
-                  }
-                />{" "}
-                Login
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="loginType"
-                  value="register"
-                  defaultChecked={data?.fields?.loginType === "register"}
-                />{" "}
-                Sign Up
-              </label>
-            </fieldset>
-            <div>
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                name="username"
-                placeholder="Username"
-                defaultValue={data?.fields?.username}
-                aria-invalid={Boolean(data?.fieldErrors?.username)}
-                aria-describedby={
-                  data?.fieldErrors?.username ? "username-error" : undefined
-                }
-              />
-              {data?.fieldErrors?.username ? (
-                <p
-                  className="form-validation-error"
-                  role="alert"
-                  id="username-error"
-                >
-                  {data?.fieldErrors.username}
-                </p>
-              ) : null}
-            </div>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                name="password"
-                placeholder="Password"
-                defaultValue={data?.fields?.password}
-                aria-invalid={Boolean(data?.fieldErrors?.password) || undefined}
-                aria-describedby={
-                  data?.fieldErrors?.password ? "password-error" : undefined
-                }
-              />
-              {data?.fieldErrors?.password ? (
-                <p
-                  className="form-validation-error"
-                  role="alert"
-                  id="password-error"
-                >
-                  {data?.fieldErrors.password}
-                </p>
-              ) : null}
-            </div>
-            <div id="form-error-message">
-              {data?.formError ? (
-                <p className="form-validation-error" role="alert">
-                  {data?.formError}
-                </p>
-              ) : null}
-            </div>
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
-          </div> */}
           <input
             type="hidden"
             name="redirectTo"

@@ -11,11 +11,12 @@ body {
 .hero {
     width: 100%;
     position: relative;
+    height: 16rem;
 }
 
 .hero-img {
     background: linear-gradient(to right, rgb(0, 121, 182), rgb(255, 255, 255));
-    height: 12rem;
+    height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -31,6 +32,27 @@ body {
     border: 0.325rem solid #fff;
     margin-left: -3.25rem;
     bottom: -3.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    transition: .5s;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.hero-profile:hover {
+    cursor: default;
+    animation: ease-in spin infinite 1.25s normal;
+    transform: scale(1.5);
 }
 
 .sub-title {
@@ -62,6 +84,10 @@ body {
     border-bottom: 1px solid #7c7c7c;
     margin: 3rem 1rem 0.75rem 1rem;
     font-size: 1.625rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
 }
 
 .grid {
@@ -74,6 +100,7 @@ body {
 a:any-link {
     text-decoration: none;
     color: inherit;
+    position: relative;
 }
 
 .card {

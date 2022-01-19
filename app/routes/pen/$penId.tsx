@@ -7,6 +7,16 @@ import { JavascriptEditor, CssEditor, HtmlEditor } from "../../components/editor
 
 import styles from "../../styles/pen-slug.css";
 
+type ParentContext = {
+    html: string,
+    css: string,
+    js: string,
+    height: string,
+    setHtml: (html: React.SetStateAction<string>) => void,
+    setCss: (css: React.SetStateAction<string>) => void,
+    setJs: (js: React.SetStateAction<string>) => void,
+}
+
 export let handle = { id: "penId" }; 
 
 export function links() {
@@ -14,17 +24,17 @@ export function links() {
 }
 
 export default function PenId() {
-    const parentData: any = useOutletContext();
+    const parentData: ParentContext = useOutletContext();
 
     const [heightValue, setHeightValue] = React.useState("300px");
-    const [htmlValue, setHtmlValue] = React.useState(``);
+    const [htmlValue, setHtmlValue] = React.useState('');
     const [jsValue, setJsValue] = React.useState("");
     const [cssValue, setCssValue] = React.useState("");
 
     useEffect(() => {
-        setHtmlValue(parentData.html);
-        setJsValue(parentData.js);
-        setCssValue(parentData.css);
+        parentData.html !== "null" ? setHtmlValue(parentData.html) : setHtmlValue('');
+        parentData.js !== "null" ? setJsValue(parentData.js) : setJsValue('');
+        parentData.css !== "null" ? setCssValue(parentData.css) : setCssValue('');
     }, [parentData.html, parentData.js, parentData.css]);
 
     useEffect(() => {

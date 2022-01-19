@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useFetcher, useLoaderData, redirect, useCatch } from "remix";
+import { Outlet, useFetcher, useLoaderData, redirect, useCatch, Link } from "remix";
 import { getUser } from "~/utils/session.server";
 
 import SplitPane from "react-split-pane";
@@ -47,7 +47,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export const loader: LoaderFunction = async ({ params, request }) => {
   const { penId } = params;
-  const user = getUser(request);
+  const user = await getUser(request);
 
   const penData = await db.pen
     .findUnique({
@@ -63,7 +63,7 @@ export const loader: LoaderFunction = async ({ params, request }) => {
   }
 
   return {
-    data: penData,
+    penData,
     user,
   };
 };
@@ -75,11 +75,11 @@ export default function Pen() {
   const { user, penData } = data;
 
   const [heightValue, setHeightValue] = React.useState("300px");
-  const [title, setTitle] = React.useState("");
-  const [outputValue, setOutputValue] = React.useState("");
-  const [htmlValue, setHtmlValue] = React.useState(``);
-  const [jsValue, setJsValue] = React.useState("");
-  const [cssValue, setCssValue] = React.useState("");
+  const [title, setTitle] = React.useState<string>("");
+  const [outputValue, setOutputValue] = React.useState<string>("");
+  const [htmlValue, setHtmlValue] = React.useState<string>(``);
+  const [jsValue, setJsValue] = React.useState<string>("");
+  const [cssValue, setCssValue] = React.useState<string>("");
 
   const debouncedHtml = useDebounce(htmlValue, 1000);
   const debouncedJs = useDebounce(jsValue, 1000);
@@ -159,8 +159,8 @@ export default function Pen() {
         </button>
         <div className="right">
           <button onClick={submit}>Save</button>
-          <button>Load</button>
-          {user && <div className="logo"></div>}
+          <button className="load">Load</button>
+          {user && <Link to='/dashboard'><div className="logo">{user.icon}</div></Link>}
         </div>
       </div>
       <SplitPane

@@ -32,7 +32,11 @@ export const loader: LoaderFunction = async ({
     return redirect("/login");
   }
   const pens = await db.pen.findMany({
-    take: 12,
+    where: {
+      authorId: {
+        contains: user.id,
+      },
+    },
     select: {
       penId: true,
       title: true,
@@ -64,7 +68,7 @@ export default function Dashboard() {
     <div>
       <section className="hero">
         <div className="hero-img">
-          <div className="hero-profile"></div>
+          <div className="hero-profile">{user?.icon}</div>
         </div>
       </section>
       <section className="sub-title">
@@ -74,7 +78,12 @@ export default function Dashboard() {
         </Form>
       </section>
       <section className="pen">
-        <div className="header">Your Work</div>
+        <div className="header">
+          Your Work
+          <Link to="/new">
+            <button>New Pen</button>
+          </Link>
+        </div>
         <div className="grid">
           {pens.map((pen) => (
             <GridCard

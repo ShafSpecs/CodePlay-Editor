@@ -1,9 +1,10 @@
 import React from "react";
-import { useFetcher, useLoaderData, redirect } from "remix";
+import { useFetcher, useLoaderData, redirect, Link } from "remix";
+import { getUser } from "~/utils/session.server";
 
 import SplitPane from "react-split-pane";
 
-import type { ActionFunction, ErrorBoundaryComponent } from "remix";
+import type { ActionFunction, ErrorBoundaryComponent, LoaderFunction } from "remix";
 
 import {
   JavascriptEditor,
@@ -25,6 +26,8 @@ export function links() {
 
 export const action: ActionFunction = async ({ request }) => {
   const body = await request.formData();
+  const user = await getUser(request);
+  console.log(user)
 
   const data = await db.pen.create({
     data: {
@@ -38,14 +41,26 @@ export const action: ActionFunction = async ({ request }) => {
       css: body.get("css"),
       //@ts-ignore
       js: body.get("js"),
+      //@ts-ignore
+      authorId: user.id,
     },
   });
 
   return redirect(`/pen/${data.penId}`);
 };
 
+export const loader: LoaderFunction = async ({ params, request }) => {
+  const user = await getUser(request);
+
+  return {
+    user
+  };
+}
+
 export default function Index() {
+  const data = useLoaderData();
   const fetcher = useFetcher();
+  const { user } = data;
 
   const [heightValue, setHeightValue] = React.useState("300px");
 
@@ -126,6 +141,7 @@ export default function Index() {
         <div className="right">
           <button onClick={submit}>Save</button>
           <button>Load</button>
+          {user && <Link to='/dashboard'><div className="logo">{user.icon}</div></Link>}
         </div>
       </div>
       <SplitPane
