@@ -1,7 +1,7 @@
 import { Form, Link, redirect, useLoaderData } from "remix";
 import { User } from "@prisma/client";
-import { getUser } from "~/utils/session.server";
-import { db } from "~/utils/db.server";
+import { getUser } from "~/utils/server/session.server";
+import { db } from "~/utils/server/db.server";
 import { formatDistanceToNowStrict } from "date-fns";
 
 import styles from "../styles/dashboard.css";

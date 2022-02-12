@@ -1,6 +1,6 @@
 import { Form, useSearchParams, useActionData, json } from "remix";
-import { db } from "~/utils/db.server";
-import { login, register, createUserSession } from "~/utils/session.server";
+import { db } from "~/utils/server/db.server";
+import { login, register, createUserSession } from "~/utils/server/session.server";
 import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/avatars-identicon-sprites';
 

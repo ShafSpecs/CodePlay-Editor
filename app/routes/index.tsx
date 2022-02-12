@@ -1,7 +1,7 @@
 import { useLoaderData, redirect, Form, Link } from "remix";
-import { getUser } from "~/utils/session.server";
+import { getUser } from "~/utils/server/session.server";
 import { User } from "@prisma/client";
-import { db } from "~/utils/db.server";
+import { db } from "~/utils/server/db.server";
 import { formatDistanceToNowStrict } from "date-fns";
 
 import styles from "../styles/index.css";
@@ -84,7 +84,7 @@ export default function Index() {
           />
         </svg>
         <div className="title">Codeplay</div>
-        {data ? (
+        {data?.user ? (
           <div className="right">
             <Link to="/dashboard">
               <div className="dashboard">Dashboard</div>

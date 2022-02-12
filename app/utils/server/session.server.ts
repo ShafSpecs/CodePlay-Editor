@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { db } from '~/utils/db.server';
+import { db } from '~/utils/server/db.server';
 import {
   createCookieSessionStorage,
   redirect

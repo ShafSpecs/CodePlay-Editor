@@ -3,7 +3,7 @@ import { useOutletContext } from "remix";
 
 import SplitPane from "react-split-pane"
 import { ClientOnly } from "remix-utils"
-import { JavascriptEditor, CssEditor, HtmlEditor } from "../../components/editor.client";
+import { JavascriptEditor, CssEditor, HtmlEditor } from "../../utils/client/editor.client";
 
 import styles from "../../styles/pen-slug.css";
 

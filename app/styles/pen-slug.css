@@ -10,7 +10,7 @@ body {
 
 .Resizer:hover {
     transition: all 2s ease;
-    border: 10px solid #333642;
+    border: 10px solid #030224;
 }
 
 .Resizer.horizontal {
@@ -18,13 +18,13 @@ body {
     margin: -5px 0;
     cursor: row-resize;
     width: 100%;
-    border: 8px solid #333642;
+    border: 8px solid #212135;
 }
 
 .Resizer.vertical {
     margin: 0 -5px;
     cursor: col-resize;
-    border: 8px solid #333642;
+    border: 8px solid #212135;
 }
 
 .Resizer.disabled {

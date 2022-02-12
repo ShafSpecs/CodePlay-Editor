@@ -37,7 +37,7 @@ body {
 
 .Resizer:hover {
     transition: all 2s ease;
-    border: 10px solid #333642;
+    border: 10px solid #030224;
 }
 
 .Resizer.horizontal {
@@ -45,7 +45,13 @@ body {
     margin: -5px 0;
     cursor: row-resize;
     width: 100%;
-    border: 8px solid #333642;
+    border: 8px solid #212135;
+}
+
+.Resizer.vertical {
+    margin: 0 -5px;
+    cursor: col-resize;
+    border: 8px solid #212135 !important;
 }
 
 .Resizer.disabled {
@@ -54,6 +60,18 @@ body {
 
 .Resizer.disabled:hover {
     border-color: transparent;
+}
+
+.code-play {
+    color: #fff;
+    background: transparent;
+    border: 0;
+    outline: none;
+    font-size: 1.25rem;
+    width: 1.825rem;
+    height: 1.825rem;
+    margin: 0 0.1rem 0 0.625rem;
+    cursor: pointer;
 }
 
 .header {
@@ -65,13 +83,31 @@ body {
     position: relative;
     align-items: center;
     width: 100%;
-    background-image: linear-gradient(to right, rgb(120, 94, 132, 0.5), rgb(211, 234, 19, 0));
+    background-color: #04031C;
 }
 
 .header h3 {
-    padding: 0;
-    position: relative;
-    margin: 0 0 0 0.25rem;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    margin-left: 0.5rem;
+}
+
+.header button {
+    padding: 0.625rem 1rem;
+    border: none;
+    background-color: #212135;
+    color: #fff;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.header button:hover {
+    background-color: #31314f;
+}
+
+.header button:not(:first-of-type) {
+    margin: 0 0.5rem;
 }
 
 .right {
@@ -115,13 +151,18 @@ body {
 
 .title-input {
     border-style: none;
-    border-bottom: solid 1px rgba(65, 65, 65, 0.5);
+    border-bottom: solid 1px #7b7b7b;
     width: 100%;
     background: transparent;
-    color: #202020;
+    color: #fff;
     margin-right: 0.5rem;
     padding: 0.125rem;
+    font-size: 0.9125rem;
+}
+
+.title-input::placeholder {
     font-size: 0.825rem;
+    color: #afafaf;
 }
 
 .title-input:focus {

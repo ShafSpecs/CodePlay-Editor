@@ -4,9 +4,9 @@ import "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/mode-css"
 import "ace-builds/src-noconflict/mode-javascript"
 import "ace-builds/src-noconflict/mode-html"
-import "ace-builds/src-noconflict/theme-pastel_on_dark"
+import "ace-builds/src-noconflict/theme-tomorrow_night"
 
-import styles from "../styles/Editor.css";
+import styles from "../../styles/Editor.css";
 
 export function links() {
     return [{ rel: "stylesheet", href: styles }];
@@ -27,7 +27,7 @@ export const CssEditor = (props: any) => {
 const Editor = ({ mode, onChange, value, title, height }: any) => {
     return (
         <ClientOnly>
-            <div className='editorContainer' style={{backgroundColor: '#1d1e22', height: '100%', color: '#b7bbc8', paddingLeft: '5px', position:'relative'}}>
+            <div className='editorContainer' style={{backgroundColor: '#1f1f2b', height: '100%', color: '#CDCABC', position:'relative', margin: 0}}>
                 <div className='editorTitle' style={{padding: '10px', fontFamily: 'Tahoma', fontWeight: 'bold'}}>
                     {title}
                 </div>
@@ -50,6 +50,7 @@ const Editor = ({ mode, onChange, value, title, height }: any) => {
                     showPrintMargin={true}
                     showGutter={true}
                     highlightActiveLine={true}
+                    wrapEnabled={true}
                 />
             </div></ClientOnly>
     );
