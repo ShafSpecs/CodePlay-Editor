@@ -117,6 +117,7 @@ body {
 .editor-container {
     height: calc(100vh - 2.75rem);
     margin: 2.75rem 0 0 0;
+    background-color: white;
 }
 
 .title-input {
