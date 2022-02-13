@@ -197,7 +197,8 @@ button {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    background-color: #2a3d64;
+    /* background-color: #2a3d64; */
+    background-color: #04031c;
     color: white;
     outline: 0;
     border: 0;
@@ -214,7 +215,8 @@ button {
 
 button:hover {
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
-    background-color: #3f445f;
+    background-color: #303658;
+    /* background-color: #3f445f; */
 }
 
 .form-control-radio {
