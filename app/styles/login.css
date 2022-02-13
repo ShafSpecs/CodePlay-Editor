@@ -65,7 +65,7 @@ a:any-link {
     width: max-content;
     height: max-content;
     margin: auto;
-    padding: 3rem 1.5rem;
+    padding: 3.5rem 2rem;
     box-shadow: #353535 0 0 13px;
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: rgba(255, 255, 255, 0.125);
@@ -75,7 +75,7 @@ a:any-link {
     -webkit-backdrop-filter: blur(8.4px);
     font-family: 'Terminal', 'Matter Regular', sans-serif;
     display: flex;
-    align-items: center;
+    align-items: left;
     justify-content: center;
     flex-direction: column;
     position: relative;
@@ -85,17 +85,29 @@ a:any-link {
 .container h2 {
     font-family: 'Mochiy Pop P One', cursive;
     margin-bottom: 0.825rem;
+    text-align: left;
+    width: 100%;
 }
 
 .container h2:hover {
     cursor: default;
 }
 
+.form {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
 fieldset {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     border: 0;
+    margin: 0;
     margin-bottom: 1rem;
+    padding: 0;
 }
 
 fieldset> :not(:last-child) {
@@ -124,7 +136,7 @@ legend {
     background-color: #f0f8ff;
     border: 1px solid #222;
     border-radius: 5px;
-    font-family: 'Terminal', 'Matter Regular', sans-serif;
+    font-family: 'Terminal', sans-serif;
     color: #353535;
     margin-bottom: 0.625rem;
 }
@@ -163,9 +175,8 @@ legend {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
-    right: 1.25rem;
-    width: calc(100% + 1.25rem);
+    /* width: calc(100% + 1.25rem); */
+    width: 100%;
 }
 
 .input-pack input {
@@ -192,7 +203,7 @@ button {
     border: 0;
     font-size: 0.825rem;
     padding: 0.625rem 1rem;
-    margin: 0.325rem auto;
+    margin: 0.325rem 0;
     font-family: 'Inter', sans-serif;
     cursor: pointer;
     transition: .2s;

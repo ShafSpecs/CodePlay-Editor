@@ -45,7 +45,7 @@ if (!sessionSecret) {
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: "CODEPLAY_session_cookie",
     secure: true,
     secrets: [sessionSecret],
     sameSite: "lax",

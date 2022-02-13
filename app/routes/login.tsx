@@ -169,6 +169,7 @@ export default function Login() {
             aria-describedby={
               actionData?.formError ? "form-error-message" : undefined
             }
+            className="form"
           >
             <input
               type="hidden"
