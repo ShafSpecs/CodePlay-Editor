@@ -105,7 +105,7 @@ fieldset {
     display: flex;
     justify-content: left;
     border: 0;
-    margin: 0;
+    margin: 0.625rem 0;
     margin-bottom: 1rem;
     padding: 0;
 }
@@ -197,7 +197,7 @@ button {
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    background-color: #2e3246;
+    background-color: #2a3d64;
     color: white;
     outline: 0;
     border: 0;
